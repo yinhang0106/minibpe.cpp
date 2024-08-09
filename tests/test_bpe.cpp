@@ -10,7 +10,7 @@ auto tokens_generate() {
     auto seed = 24;
     auto rng = std::mt19937(seed);
     std::uniform_int_distribution<int> dist(0, 25);
-    std::vector<int> data(1000);
+    std::vector<int> m_data(1000);
     std::ranges::generate(data, [&](){ return dist(rng); });
     return data;
 }
@@ -57,12 +57,6 @@ std::vector<int> merge(std::vector<int> const& tokens, auto const& key, int new_
 }
 
 auto bytes_pair_encode(std::vector<int>& tokens, int round) {
-    while (round) {
-        auto stats_map = stats(tokens);
-        auto max_it = std::max_element(stats_map.begin(), stats_map.end(), [] (auto const& a, auto const& b) { return a.second < b.second; });
-        auto new_tokens = merge(tokens, max_it->first, 26 + round);
-        round--;
-    }
 }
 
 int main () {
