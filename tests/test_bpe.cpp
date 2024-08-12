@@ -10,7 +10,7 @@ auto tokens_generate() {
     auto seed = 24;
     auto rng = std::mt19937(seed);
     std::uniform_int_distribution<int> dist(0, 25);
-    std::vector<int> m_data(1000);
+    std::vector<int> data(1000);
     std::ranges::generate(data, [&](){ return dist(rng); });
     return data;
 }
