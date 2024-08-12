@@ -7,10 +7,10 @@
 
 
 int main() {
-    std::string s = "你好";
+    std::string const s = "你好";
     std::cout << std::format("句子的长度是 {}。", s.size()) << std::endl;
 
-    std::u32string u32s = U"你好";
+    std::u32string const u32s = U"你好";
     std::cout << std::format("句子的长度是 {}。", u32s.size()) << std::endl;
 
     std::vector<std::string> slogan = {
@@ -23,14 +23,13 @@ int main() {
     std::cout << joined << std::endl;
 
     std::u32string s2 = U"你好";
-    for (auto &c: s2) {
+    for (auto const &c: s2) {
         std::cout << std::format("{:d} ", static_cast<unsigned char>(c));
     }
     std::cout << std::endl;
 
     // convert utf32 string to utf8 string
-    auto h = utf8::utf32to8(s2);
-    for (auto &c: h) {
+    for (auto h = utf8::utf32to8(s2); auto const &c: h) {
         printf("%d ", static_cast<unsigned char>(c));
     }
 
