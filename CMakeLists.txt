@@ -8,6 +8,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_compile_options(-fconcepts-diagnostics-depth=2)
 
 add_subdirectory(extern/utfcpp)
+add_subdirectory(extern/googletest)
+add_subdirectory(extern/benchmark)
 
 add_subdirectory(include)
 add_subdirectory(tests)
