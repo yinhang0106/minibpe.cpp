@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include <iterator>
-#include <algorithm>
 #include <map>
 #include <random>
 #include <vector>
@@ -16,22 +15,24 @@ struct Node {
 };
 
 template<typename T>
-struct JumpVector {
+struct Tokenizer {
 
     Node<T> *m_data;
-    size_t m_size;
+    size_t m_size{};
 
     inline static std::map<std::pair<int, int>, int> g_stats_map{};
 
-    JumpVector() noexcept {
+    Tokenizer() noexcept {
         m_data = nullptr;
         m_size = 0;
     }
 
-    JumpVector(std::initializer_list<int> ilist)
-            : JumpVector(ilist.begin(), ilist.end()) {}
+    [[maybe_unused]]
+    Tokenizer(std::initializer_list<int> ilist)
+            : Tokenizer(ilist.begin(), ilist.end()) {}
 
-    explicit JumpVector(size_t n, T const &val = 0) {
+    [[maybe_unused]] explicit
+    Tokenizer(size_t n, T const &val = 0) {
         m_data = new Node<T>[n];
         m_size = n;
 
@@ -48,7 +49,7 @@ struct JumpVector {
     }
 
     template<std::random_access_iterator InputIt>
-    JumpVector(InputIt first, InputIt last) {
+    Tokenizer(InputIt first, InputIt last) {
         size_t n = last - first;
         std::cout << n << "\n";
         m_data = new Node<T>[n];
@@ -69,7 +70,7 @@ struct JumpVector {
         init_stats();
     }
 
-    ~JumpVector() {
+    ~Tokenizer() {
         delete[] m_data;
     }
 
@@ -207,15 +208,15 @@ auto tokens_generate(int min_val, int max_val, int length) {
     std::uniform_int_distribution<int> dist(min_val, max_val);
     std::vector<int> data(length);
     std::ranges::generate(data, [&]() { return dist(rng); });
-    JumpVector<int> jv(data.begin(), data.end());
-    return jv;
+    Tokenizer<int> tokenizer(data.begin(), data.end());
+    return tokenizer;
 }
 
-template <class T>
-void bytes_pair_encode(JumpVector<T>& tokens, int round, int new_token) {
+template<class T>
+void bytes_pair_encode(Tokenizer<T> &tokens, int round, int new_token) {
     for (int k = 0; k < round; ++k) {
         // find the most frequent pair in this round
-        auto max_it = std::max_element(JumpVector<T>::g_stats_map.begin(), JumpVector<T>::g_stats_map.end(),
+        auto max_it = std::max_element(Tokenizer<T>::g_stats_map.begin(), Tokenizer<T>::g_stats_map.end(),
                                        [](auto const &a, auto const &b) {
                                            return a.second < b.second;
                                        });

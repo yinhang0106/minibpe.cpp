@@ -1,11 +1,15 @@
 cmake_minimum_required(VERSION 3.22)
 
-project(minibpe LANGUAGES CXX)
+project(minibpe LANGUAGES CXX C)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_compile_options(-fconcepts-diagnostics-depth=2)
+find_package(Boost)
+if(Boost_FOUND)
+    message(STATUS "Boost found in ${Boost_INCLUDE_DIRS}")
+    include_directories(${Boost_INCLUDE_DIRS})
+endif()
 
 add_subdirectory(extern/utfcpp)
 add_subdirectory(extern/googletest)
